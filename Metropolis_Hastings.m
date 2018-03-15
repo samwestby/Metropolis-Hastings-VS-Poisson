@@ -26,10 +26,10 @@ for j = 1:numOfTrials
         
         if u < 0.5
             Y = X+1;
-            r = 5/(X+1);
+            r = lamda/(X+1);
         else
             Y = X-1;
-            r = X/5;
+            r = X/lamda;
             
         end                  
         
