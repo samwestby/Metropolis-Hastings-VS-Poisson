@@ -1,25 +1,29 @@
+% Metropolis-Hastings Algorithm approximating the Poisson distribution
+% Sam Westby <swestby2@wisc.edu>
 
+% We are assuming the Markov Chain is a symmetric random walk with 
+% S = {0,...,infinity} and p(0,0) = 1/2
 
-
-
-
-%Probabilities. q for x > 0. Else P(0,0) = .5
-q = .5;
+% The lamda of the Poisson distribution
+lamda = 5;
 numOfTrials = 2000;
+
+% sim is a matrix that will hold the final position of X for every trial
 sim = zeros(1,numOfTrials);
 for j = 1:numOfTrials
-    X0 = 10;
-    X = X0;
+    
+    % The value of X at time 0
+    X = 10;
     numOfSteps = 1000;
+    
     for n = 0 : numOfSteps
-        
-        
-        %Step (2a). Sample state Y in S following the transition probabilities
-        %q(x,y). So P(Y=y) = q(x,y)
+               
+        % Step (2a). Sample state Y in S following the transition probabilities
+        % q(x,y). So P(Y=y) = q(x,y)
         u = rand;
         Y = X;
         r = 1;
-        %Check this!!!!!!!!
+        
         if u < 0.5
             Y = X+1;
             r = 5/(X+1);
@@ -27,14 +31,10 @@ for j = 1:numOfTrials
             Y = X-1;
             r = X/5;
             
-        end   
-           
-         
+        end                  
         
-        
-        %Step (2b). Accept or reject the jump.
+        % Step (2b). Accept or reject the jump.
         z = rand;
-        %Don't need to include the q's because they cancel out.
         if r > 1
             r = 1;
         end
@@ -42,13 +42,12 @@ for j = 1:numOfTrials
         if z < r
             X = Y;
         end
-        %disp(X);
         
     end
     sim(j) = X;
 end
 
-%plot and compare to Poisson
+% Plot sim and compare to Poisson
 figure
 h=hist(sim, max(sim)+1);
 h=h/sum(h);
